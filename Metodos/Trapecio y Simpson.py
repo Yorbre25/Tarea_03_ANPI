@@ -6,7 +6,11 @@ import sympy as sp
 """
 """
 Metodo del trapecio: Utiliza un polinomio de grado 1
-para aproximar el area debajo de la curva
+para aproximar el area debajo de la curva.
+Entrada:
+    f: string de la función a la que sacar la integral
+    a: limite inferior de la integral
+    b: limite superior de la integral
 """
 def trapecio(f, a, b):
     x = sp.Symbol("x")
@@ -17,7 +21,11 @@ def trapecio(f, a, b):
     return I
 """
 Metodo de Simpson: Utiliza un polinomio de grado 2 
-para aproximar el area bajo la curva
+para aproximar el area bajo la curva.
+Entrada:
+    f: string de la función a la que sacar la integral
+    a: limite inferior de la integral
+    b: limite superior de la integral
 """
 def simpson(f, a, b):
     x = sp.Symbol("x")
@@ -28,6 +36,15 @@ def simpson(f, a, b):
     I = ((b - a)/6)    *(f_a + 4*f_medio + f_b)
     return I
 
+"""
+Trapecio compuesto: Para diferentes subintervalo se aplica
+el metodo de trapecio.
+Entrada:
+    f: string de la función a la que sacar la integral
+    a: limite inferior de la integral
+    b: limite superior de la integral
+    m: cantidad de puntos
+"""
 def trapecio_compuesto(f, a, b, m):
     x = sp.Symbol("x")
     f = sp.sympify(f)    
@@ -42,6 +59,15 @@ def trapecio_compuesto(f, a, b, m):
     # print(I)
     return I
 
+"""
+Simpson compuesto: Para diferentes subintervalo se aplica
+el metodo de simpson.
+Entrada:
+    f: string de la función a la que sacar la integral
+    a: limite inferior de la integral
+    b: limite superior de la integral
+    m: cantidad de puntos
+"""
 def simpson_compuesto(f, a, b, m):
     x = sp.Symbol("x")
     f = sp.sympify(f)    
@@ -56,10 +82,10 @@ def simpson_compuesto(f, a, b, m):
     # print(I)
     return I
 
-f = "exp(x)"
+# f = "exp(x)"
 # X = trapecio(f, 0, 1)
 # print(X)
 # X = simpson(f, 0, 1)
 # print(X)
-trapecio_compuesto(f, 0, 1, 5)
-simpson_compuesto(f, 0, 1, 5)
+# trapecio_compuesto(f, 0, 1, 5)
+# simpson_compuesto(f, 0, 1, 5)
