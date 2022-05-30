@@ -1,5 +1,6 @@
-from sympy.calculus.util import continuous_domain
 import sympy as sp
+
+from maximoDeFuncion import maximos_de_funcion
 
 """
 * INTEGRACIÓN NUMÉRICA
@@ -70,21 +71,28 @@ Entrada:
     a: limite inferior de la integral
     b: limite superior de la integral
     m: cantidad de puntos
-TODO: calcular error
+Salida:
+    I: valor numerico de la integral
+    error: Error maximo del calculo
 """
 def trapecio_compuesto(f, a, b, m):
     x = sp.Symbol("x")
     f = sp.sympify(f)    
     h = (b - a)/(m - 1)
-    preima = []
+    t = []
     for i in range(m):
-        preima.append(a + i*h)
-    
+        t.append(a + i*h)
+    # print(t)
+
     I = 0
+    error = 0
     #Calcular la integral
-    for j in range(len(preima) - 1):
-        I += trapecio(f, preima[j], preima[j + 1])
-    return I
+    for j in range(len(t) - 1):
+        sol = trapecio(f, t[j], t[j + 1])
+        I += sol[0]
+        error += sol[1]
+
+    return I,error
 
 """
 Simpson compuesto: Para diferentes subintervalo se aplica
@@ -94,7 +102,9 @@ Entrada:
     a: limite inferior de la integral
     b: limite superior de la integral
     m: cantidad de puntos
-TODO: calcular error
+Salida:
+    I: valor numerico de la integral
+    error: Error maximo del calculo
 """
 def simpson_compuesto(f, a, b, m):
     x = sp.Symbol("x")
@@ -105,68 +115,24 @@ def simpson_compuesto(f, a, b, m):
         preima.append(a + i*h)
     
     I = 0
+    error = 0
     for j in range(len(preima) - 1):
-        I += simpson(f, preima[j], preima[j + 1])
+        sol = simpson(f, preima[j], preima[j + 1])
+        I += sol[0]
+        error += sol[1]
     # print(I)
-    return I
+    return I, error
 
-"""
-Devuelve el valor mas alto que puede tomar la función f
-en el intervalo de entrda.
-Entrada:
-    f: string de la funcion
-    a: limite inferior
-    b: limite superior
-Salida:
-    mayor: valor maximo
-"""
-def maximos_de_funcion(f, a, b):
-    f = sp.simplify(f)
-    x = sp.Symbol("x")
-    #Calcular puntos críticos
-    f_der = sp.diff(f, x)
-    
-    #Donde la derivada de f se hace 0
-    pts_crt = sp.solve(sp.Eq(f_der, 0))
-    
-    #Donde la derivada de f se indefine pero f no
-    f_domain = continuous_domain(f, x, sp.S.Reals )
-    deriv_domain = continuous_domain(f_der, x, sp.S.Reals )
-    mas_pts = sp.Complement( f_domain, deriv_domain)
-    for value in mas_pts.args:
-        pts_crt.append(value)
-    print(pts_crt)
-    
-    #Pasar los valore sa numerico
-    aux_lst = pts_crt.copy()
-    for i in range(len(aux_lst)):
-        pts_crt[i] = aux_lst[i].evalf()
-
-    #Agregar extremos
-    pts_crt.append(a)
-    pts_crt.append(b)
-
-    #Evaluar los puntos en f
-    f_eval = []
-    aux_lst = pts_crt.copy()
-    for i in range(len(aux_lst)):
-        value = f.subs(x, aux_lst[i]).evalf() #evaluar en f
-        if value.is_real: # Si es real se agrega
-            f_eval.append( abs(f.subs(x, aux_lst[i]).evalf()) )
-            continue
-        else: #Si no es real se elimina como candidato
-            pts_crt.pop(i)
-    
-
-    maximo = max(f_eval)
-    # print(maximo)
-    return maximo
-
-f = "exp(x)"
-# f = "sqrt( x - 1 ) - x"
-# X = trapecio(f, 0, 1)
+# f = "exp(x)"
+# f = "cos(x)"
+# f = "atan(x)"
+# a = -2
+# b = 1
+# X = trapecio(f, a, b)
 # print(X)
-X = simpson(f, 0, 1)
-print(X)
-# trapecio_compuesto(f, 0, 1, 5)
-# simpson_compuesto(f, 0, 1, 5)
+# X = simpson(f, a, b)
+# print(X)
+# X = trapecio_compuesto(f, a, b, 5)
+# print(X)
+# X = simpson_compuesto(f, a, b, 5)
+# print(X)
