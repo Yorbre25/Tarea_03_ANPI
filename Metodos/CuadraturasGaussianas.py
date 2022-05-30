@@ -37,6 +37,7 @@ Entrada:
     n: grado del polinomio de Legendre
 Salida:
     Integral de la función
+TODO: calcular error
 """
 def cuadratura_gaussiana(f, n):
     #Ceros del polinomio

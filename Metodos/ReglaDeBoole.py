@@ -7,6 +7,7 @@ Entrada:
     f: string de la función a la que sacar la integral
     a: limite inferior de la integral
     b: limite superior de la integral
+TODO: calcular error
 """
 def reglaDeBoole(f, a, b):
     x = sp.Symbol("x")
@@ -28,6 +29,8 @@ Evalua todos los elemenos de t en f
 Entrada:
     f: función de sympy.
     t: vector de preimágenes.
+Salida:
+    y: vector con las imagenes
 """
 def get_y(f, t):
     n = t.size
