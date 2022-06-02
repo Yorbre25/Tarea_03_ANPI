@@ -49,6 +49,6 @@ def maximos_de_funcion(f, a, b):
             pts_crt.pop(i)
     
 
-    # maximo = max(f_eval)
+    maximo = max(f_eval)
     # print(maximo)
-    # return maximo
+    return maximo
