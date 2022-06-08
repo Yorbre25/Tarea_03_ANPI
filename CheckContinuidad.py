@@ -18,14 +18,18 @@ def checkInverval(f, a, b):
     I = sp.calculus.util.continuous_domain(f, x, S.Reals)
 
     esContinuo = False
-    for subset in I.args: 
-        #Para cada intervalo continuo, verificar si 
-        # el intervalo de entrada es subintervalo de subset
-        esContinuo = inter.is_subset(subset)
-        if esContinuo:
-            break
+    if I.args == ():
+        esContinuo = True
+    else:
+        for subset in I.args: 
+            #Para cada intervalo continuo, verificar si 
+            # el intervalo de entrada es subintervalo de subset
+            esContinuo = inter.is_subset(subset)
+            if esContinuo:
+                break
     
     return esContinuo
 
-f = "1/(x-5)"
-checkInverval(f, 2, 3)
+# f = "(x +5)/(x-5) "
+# X = checkInverval(f, 2, 5)
+# print(X)
