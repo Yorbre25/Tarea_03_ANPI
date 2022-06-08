@@ -22,7 +22,7 @@ def reglaDeBoole(f, a, b):
     t = np.zeros(n)
     for i in range(n):
         t[i] = a + i*h
-    print(t)
+    #print(t)
     y = get_y(f, t)
 
     I = 2*(h/45) * (7*y[0] + 32*y[1] + 12*y[2] + 32*y[3] + 7*y[4])
@@ -53,9 +53,10 @@ def get_y(f, t):
     # print(y)
     return y
 
-# f = "atan(x)"
-# a = -2
-# b = 1
-# X = reglaDeBoole(f, a, b)
-# print(X)
+#f = "atan(x)"
+#a = -2
+#b = 1
+#X = reglaDeBoole(f, a, b)
+
+print(X)
 
