@@ -2,9 +2,11 @@ from operator import ge
 from tkinter import *
 import tkinter.font as font
 import CheckContinuidad as ck
-import Metodos.ReglaDeBoole as Rb
-
-import os
+import maximoDeFuncion as mxF
+import CuadraturasGaussianas as cg
+import Trapecio_y_Simpson as ts
+import ReglaDeBoole as RB
+import sys, os
 
 
 
@@ -37,7 +39,7 @@ def simpleAcompuesto():
     ent_pts.place_forget()
     r_Tr['text'] = 'Trapecio'
     r_Sm['text'] = 'Simpson'
-    r_Bl['text'] = 'Regla de boole'
+    r_Bl['text'] = 'Regla de Boole'
     r_Tr['value'] = 1
     r_Sm['value'] = 2
     r_Bl['value'] = 3
@@ -64,54 +66,62 @@ def calcular():
     try:
         a= float(ent_aEq.get())
         b= float(ent_bEq.get())
-        fun_X=ent_fx.get()
-        
+        fun_X= ent_fx.get()
+        metodo=int(met_inter.get())
         ck_inter= ck.checkInverval(fun_X,a,b)
-        
-        
+        pts=int(ent_pts.get())
+        print(pts);
         if not(ck_inter):
             ent_Aprox.insert(0,"0")
             ent_Err.insert(0,"Funcion discontinua")
         
-        if a==b:
+        elif a==b:
             ent_Aprox.insert(0,"0")
             ent_Err.insert(0,"Error de sintaxis a = b")
             print("igual 0")
         
-        if met_inter==0:
+        elif metodo==0:
             ent_Aprox.insert(0,"0")
             ent_Err.insert(0,"Seleccione un metodo")
         
-        if met_inter==1:#trapecio
-            ent_Aprox.insert(0,"0")
-            ent_Err.insert(0,"Seleccione un metodo")
+        elif metodo==1:#trapecio
+            resultado=ts.trapecio(fun_X,a,b)
+            ent_Aprox.insert(0,resultado[0])
+            ent_Err.insert(0,resultado[1])
         
-        if met_inter==2:#simpson
-            ent_Aprox.insert(0,"0")
-            ent_Err.insert(0,"Seleccione un metodo")
+        elif metodo==2:#simpson
+            resultado=ts.simpson(fun_X,a,b)
+            ent_Aprox.insert(0,resultado[0])
+            ent_Err.insert(0,resultado[1])
         
-        if met_inter==3:#Regla_boole
-            ent_Aprox.insert(0,"0")
-            ent_Err.insert(0,"Seleccione un metodo")
+        elif metodo==3:#Regla_boole
+            resultado=RB.reglaDeBoole(fun_X,a,b)
+            ent_Aprox.insert(0,resultado[0])
+            ent_Err.insert(0,resultado[1])
         
-        if met_inter==4:#trapecio_compuesto
-            ent_Aprox.insert(0,"0")
-            ent_Err.insert(0,"Seleccione un metodo")
+        elif metodo==4:#trapecio_compuesto
+            resultado=ts.trapecio_compuesto(fun_X,a,b,pts)
+            ent_Aprox.insert(0,resultado[0])
+            ent_Err.insert(0,resultado[1])
         
-        if met_inter==5:#simpson_compuesto
-            ent_Aprox.insert(0,"0")
-            ent_Err.insert(0,"Seleccione un metodo")
+        elif metodo==5:#simpson_compuesto
+            resultado=ts.simpson_compuesto(fun_X,a,b,pts)
+            ent_Aprox.insert(0,resultado[0])
+            ent_Err.insert(0,resultado[1])
         
-        if met_inter==6:#Cuadraturas gaussianas
-            ent_Aprox.insert(0,"0")
-            ent_Err.insert(0,"Seleccione un metodo")
+        elif metodo==6:#Cuadraturas gaussianas
+            resultado=cg.cuadratura_gaussiana_general(fun_X,a,b,pts)
+            ent_Aprox.insert(0,resultado[0])
+            ent_Err.insert(0,resultado[1])
     
     except ValueError:
         ent_Aprox.insert(0,"0")
         ent_Err.insert(0,"Ingresar valores numericos")
+        
     except TypeError:
         ent_Aprox.insert(0,"0")
-        ent_Err.insert(0,"Ingresar valores numericos")
+        ent_Err.insert(0,"Ingresar valores numericos2")
+
     except:
         print("Something else went wrong")
     
@@ -197,7 +207,7 @@ r_Sm.place(x=65, y=260)
 
 r_Bl = Radiobutton(canvas,
                  font=tipgra,
-                 text="Regla de boole",
+                 text="Regla de Boole",
                  variable=met_inter,
                  value=3,
                  command="")
@@ -206,10 +216,16 @@ r_Bl.place(x=65, y=290)
 
 lb_pau = Label(canvas, font=tipgra,
             text="Puntos a utilizar",)
-ent_pts = Entry(canvas,font=tipgra,width=3)
 
 
-
+current_value = StringVar(value=0)
+ent_pts = Spinbox(
+    canvas,
+    from_=1,
+    to=200,
+    width=3,
+    textvariable=current_value,
+    wrap=True)
 
 
 

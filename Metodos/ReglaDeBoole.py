@@ -58,5 +58,5 @@ def get_y(f, t):
 #b = 1
 #X = reglaDeBoole(f, a, b)
 
-print(X)
+#print(X)
 

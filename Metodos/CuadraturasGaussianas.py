@@ -70,7 +70,7 @@ def cuadratura_gaussiana(f, n):
 def ceros_pol_legendre(n):
     x = sp.Symbol("x")
     q = sp.diff((x**2 - 1)**n, x, n)
-    print(q)
+    #print(q)
     p = (1/(math.factorial(n) * 2**n ) * q)
     xv = sp.solve(p)
     return xv,p
@@ -86,9 +86,10 @@ def get_w(xv, p):
     return w
 
 
-
+""""
 f = "atan(x)"
 n = 3
 # I = cuadratura_gaussiana(f, n)
 X = cuadratura_gaussiana_general(f, 2, 4, n)
 print(X)
+"""
