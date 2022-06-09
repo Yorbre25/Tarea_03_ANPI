@@ -7,7 +7,7 @@ import CuadraturasGaussianas as cg
 import Trapecio_y_Simpson as ts
 import ReglaDeBoole as RB
 import sys, os
-
+import traceback
 
 
 dirname = os.path.dirname(__file__)
@@ -70,6 +70,7 @@ def calcular():
         metodo=int(met_inter.get())
         ck_inter= ck.checkInverval(fun_X,a,b)
         pts=int(ent_pts.get())
+        inver=(-1, 1)[a<b]
         print(pts);
         if not(ck_inter):
             ent_Aprox.insert(0,"0")
@@ -78,40 +79,57 @@ def calcular():
         elif a==b:
             ent_Aprox.insert(0,"0")
             ent_Err.insert(0,"Error de sintaxis a = b")
-            print("igual 0")
         
         elif metodo==0:
             ent_Aprox.insert(0,"0")
             ent_Err.insert(0,"Seleccione un metodo")
         
         elif metodo==1:#trapecio
-            resultado=ts.trapecio(fun_X,a,b)
-            ent_Aprox.insert(0,resultado[0])
+            if a<b:
+                resultado=ts.trapecio(fun_X,a,b)
+            else:
+                resultado=ts.trapecio(fun_X,b,a)
+            ent_Aprox.insert(0,resultado[0]*inver)
             ent_Err.insert(0,resultado[1])
         
         elif metodo==2:#simpson
-            resultado=ts.simpson(fun_X,a,b)
-            ent_Aprox.insert(0,resultado[0])
+            if a<b:
+                resultado=ts.simpson(fun_X,a,b)
+            else:
+                resultado=ts.simpson(fun_X,b,a)
+            ent_Aprox.insert(0,resultado[0]*inver)
             ent_Err.insert(0,resultado[1])
         
         elif metodo==3:#Regla_boole
-            resultado=RB.reglaDeBoole(fun_X,a,b)
-            ent_Aprox.insert(0,resultado[0])
+            if a<b:
+                resultado=RB.reglaDeBoole(fun_X,a,b)
+            else:
+                resultado=RB.reglaDeBoole(fun_X,b,a)
+            ent_Aprox.insert(0,resultado[0]*inver)
             ent_Err.insert(0,resultado[1])
         
         elif metodo==4:#trapecio_compuesto
-            resultado=ts.trapecio_compuesto(fun_X,a,b,pts)
-            ent_Aprox.insert(0,resultado[0])
+            if a<b:
+                resultado=ts.trapecio_compuesto(fun_X,a,b,pts)
+            else:
+                resultado=ts.trapecio_compuesto(fun_X,b,a,pts)
+            ent_Aprox.insert(0,resultado[0]*inver)
             ent_Err.insert(0,resultado[1])
         
         elif metodo==5:#simpson_compuesto
-            resultado=ts.simpson_compuesto(fun_X,a,b,pts)
-            ent_Aprox.insert(0,resultado[0])
+            if a<b:
+                resultado=ts.simpson_compuesto(fun_X,a,b,pts)
+            else:
+                resultado=ts.simpson_compuesto(fun_X,b,a,pts)
+            ent_Aprox.insert(0,resultado[0]*inver)
             ent_Err.insert(0,resultado[1])
         
         elif metodo==6:#Cuadraturas gaussianas
-            resultado=cg.cuadratura_gaussiana_general(fun_X,a,b,pts)
-            ent_Aprox.insert(0,resultado[0])
+            if a<b:
+                resultado=cg.cuadratura_gaussiana_general(fun_X,a,b,pts)
+            else:
+                resultado=cg.cuadratura_gaussiana_general(fun_X,b,a,pts)
+            ent_Aprox.insert(0,resultado[0]*inver)
             ent_Err.insert(0,resultado[1])
     
     except ValueError:
@@ -121,8 +139,12 @@ def calcular():
     except TypeError:
         ent_Aprox.insert(0,"0")
         ent_Err.insert(0,"Ingresar valores numericos2")
+    except ZeroDivisionError:
+        ent_Aprox.insert(0,"0")
+        ent_Err.insert(0,"Numero de puntos < 1")
 
     except:
+        print(traceback.format_exc())
         print("Something else went wrong")
     
         
