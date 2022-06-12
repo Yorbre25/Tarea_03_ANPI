@@ -64,7 +64,21 @@ def revisarFuncion(expre):
         f(3.14)
         return true
 
-    
+
+def ayudar():
+    helpWin = Toplevel(root)
+    helpWin.resizable(False, False)
+    helpWin.title("Ayuda")
+    textAyuda = Text(helpWin, height = 20, wrap=WORD)
+    Ayuda = """Para aproximar el cálculo de una integral definida por favor siga los siguientes pasos: \n
+    1. Digite la función f(x).\n
+    2. Ingrese los extremos del intervalo cerrado [a,b].\n
+    3. Seleccione el método por el cual quiere que se resuelva la integral definida. Los métodos se dividen en dos grupos:  métodos simples y métodos compuestos.\n
+    4. En caso de seleccionar método un método compuesto, ingrese el número de puntos a utilizar. \n
+    5. Finalmente aprete el botón Calcular, la aproximación y la cota de error se mostrarán en el debido espacio. En caso de algún error, se mostrará qué tipo de error hubo.
+    """
+    textAyuda.pack()
+    textAyuda.insert(END, Ayuda)
     
 
 def calcular():
@@ -303,7 +317,7 @@ btn_ayuda = Button(canvas,
                font=tipgra,
                text="Ayuda",
                image=pixelVirtual,
-               command="",
+               command=ayudar,
                height = 20,
                width = 80,
                compound="c").place(x=175, y=440)
