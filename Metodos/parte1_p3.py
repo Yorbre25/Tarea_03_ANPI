@@ -8,7 +8,7 @@ import Trapecio_y_Simpson as ts
 import ReglaDeBoole as RB
 import sys, os
 import traceback
-
+from sympy import *
 
 dirname = os.path.dirname(__file__)
 imagen = os.path.join(dirname, 'inte.png')
@@ -55,8 +55,17 @@ def compuestoAsimple():
     r_Sm['value'] = 5
     r_Bl['value'] = 6
 
+def revisarFuncion(expre):
+        
+        x = symbols('x')
+        exp = expre
+        expn= sympify(exp)
+        f=lambdify(x, expn)
+        f(3.14)
+        return true
 
-
+    
+    
 
 def calcular():
     ent_Aprox.config(state= "normal")
@@ -67,11 +76,14 @@ def calcular():
         a= float(ent_aEq.get())
         b= float(ent_bEq.get())
         fun_X= ent_fx.get()
+        rfx=revisarFuncion(fun_X)
         metodo=int(met_inter.get())
         ck_inter= ck.checkInverval(fun_X,a,b)
         pts=int(ent_pts.get())
         inver=(-1, 1)[a<b]
-        print(pts);
+        if not(rfx):
+            ent_Aprox.insert(0,"0")
+            ent_Err.insert(0,"Funcion mal escrita")
         if not(ck_inter):
             ent_Aprox.insert(0,"0")
             ent_Err.insert(0,"Funcion discontinua")
@@ -143,9 +155,15 @@ def calcular():
         ent_Aprox.insert(0,"0")
         ent_Err.insert(0,"Numero de puntos < 1")
 
+    except NameError:
+        ent_Aprox.insert(0,"0")
+        ent_Err.insert(0,"Error en escritura de la funcion")
+
     except:
-        print(traceback.format_exc())
-        print("Something else went wrong")
+        #debug
+        #print(traceback.format_exc())
+        ent_Aprox.insert(0,"0")
+        ent_Err.insert(0,"Error general")
     
         
 
