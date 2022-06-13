@@ -22,7 +22,7 @@ height=500
 #los Constructores del GUI
 root = Tk()
 root.resizable(width=False, height=False) # prevents resizing window
-
+root.title('Calculadora de Integrales Definidas grupo 3')
 canvas = Canvas(root, width=width, height=height-20)
 canvas.configure(bd=0, highlightthickness=0)
 canvas.pack()
